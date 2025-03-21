@@ -128,66 +128,7 @@ class ConsultaApp(tk.Tk):
 
         consulta = f"""
         SELECT 
-            ai.id AS "ID FACTURA",
-            ai.date_invoice AS "FECHA FACTURA",
-            ai.internal_number AS "CODIGO FACTURA",
-            ai.name AS "DESCRIPCION",
-            rc.name AS "COMPAÑÍA",
-            ssp.name AS "SEDE",
-            rp.nombre_comercial AS "CLIENTE",
-            rpa.city AS "CIUDAD",
-            (CASE WHEN rpa.prov_id IS NOT NULL THEN (SELECT UPPER(name) FROM res_country_provincia WHERE id = rpa.prov_id) 
-                ELSE UPPER(rpa.state_id_2) 
-            END) AS "PROVINCIA",
-            (CASE WHEN rpa.cautonoma_id IS NOT NULL THEN (SELECT UPPER(name) FROM res_country_ca WHERE id = rpa.cautonoma_id) 
-                ELSE '' 
-            END) AS "COMUNIDAD",
-            c.name AS "PAÍS",
-            TO_CHAR(ai.date_invoice, 'MM') AS "MES",
-            TO_CHAR(ai.date_invoice, 'DD') AS "DÍA",
-            (CASE WHEN ai.type = 'out_invoice' THEN COALESCE(ai.portes,0) + COALESCE(ai.portes_cubiertos,0) 
-            ELSE -(COALESCE(ai.portes,0) + COALESCE(ai.portes_cubiertos,0))
-            END) AS "PORTES CARGADOS POR EL TRANSPORTISTA",
-            (CASE WHEN ai.type = 'out_invoice' THEN COALESCE(ai.portes_cubiertos,0) 
-            ELSE -(COALESCE(ai.portes_cubiertos,0))
-            END) AS "PORTES CUBIERTOS",
-            (CASE WHEN ai.type = 'out_invoice' THEN COALESCE(ai.portes,0) 
-            ELSE -(COALESCE(ai.portes,0))
-            END) AS "PORTES COBRADOS A CLIENTE"
-        FROM account_invoice ai
-        INNER JOIN res_partner_address rpa ON rpa.id = ai.address_shipping_id
-        INNER JOIN res_country c ON c.id = rpa.pais_id
-        LEFT JOIN stock_sede_ps ssp ON ssp.id = ai.sede_id
-        LEFT JOIN res_company rc ON rc.id = ai.company_id
-        LEFT JOIN res_partner rp ON rp.id = ai.partner_id
-        WHERE ai.state NOT IN ('draft','cancel') 
-        AND ai.type IN ('out_invoice','out_refund') 
-        AND ai.carrier_id IS NOT NULL 
-        AND ai.date_invoice >= '{start_date}' 
-        AND ai.date_invoice <= '{end_date}' 
-        GROUP BY 
-            ai.id,
-            ai.company_id,
-            ai.date_invoice,
-            TO_CHAR(ai.date_invoice, 'YYYY'),
-            TO_CHAR(ai.date_invoice, 'MM'),
-            TO_CHAR(ai.date_invoice, 'YYYY-MM-DD'),
-            ai.carrier_id,
-            ai.partner_id,
-            ai.name,
-            ai.obsolescencia,
-            ai.type,
-            c.name,
-            rpa.state_id_2,
-            COALESCE(ai.portes,0) + COALESCE(ai.portes_cubiertos,0),
-            COALESCE(ai.portes_cubiertos,0),
-            COALESCE(ai.portes,0),
-            rc.name,
-            ssp.name,
-            rpa.prov_id,
-            rpa.cautonoma_id,
-            rp.nombre_comercial,
-            rpa.city;
+           ...(Consulta omitida por integridad de datos)...
         """
 
         try:
